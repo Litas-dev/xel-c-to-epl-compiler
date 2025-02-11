@@ -35,9 +35,9 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license='BSD',
-    author='Xeline Software Development Team',
-    maintainer='Xeline Software Development Team',
-    author_email='support@xel-software.com',  # Updated email
+    author='',
+    maintainer='Xeline',
+    author_email='',  # Updated email
     url='https://github.com/xel-software/xel-c-to-epl-compiler',
     download_url='https://github.com/xel-software/xel-c-to-epl-compiler/archive/refs/tags/1.2.1.tar.gz',
     platforms='Cross Platform',
