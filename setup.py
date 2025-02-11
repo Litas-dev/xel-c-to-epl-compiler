@@ -30,7 +30,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name='c-to-epl',
-    version='1.2.1',
+    version='1.2.2',
     description='C to ePL Converter in Python',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -38,8 +38,8 @@ setup(
     author='',
     maintainer='Xeline',
     author_email='',  # Updated email
-    url='https://github.com/xel-software/xel-c-to-epl-compiler',
-    download_url='https://github.com/xel-software/xel-c-to-epl-compiler/archive/refs/tags/1.2.1.tar.gz',
+    url='',
+    download_url='',
     platforms='Cross Platform',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
