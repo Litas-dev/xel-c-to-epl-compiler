@@ -33,6 +33,3 @@ We welcome contributions! If you find a bug or want to improve the compiler, fee
 3. Submit a pull request with your changes.
 
 ---
-
-🔗 **GitHub Repository**: [xel-software/xel-c-to-epl-compiler](https://github.com/xel-software/xel-c-to-epl-compiler)  
-📧 **Contact**: support@xel-software.com
