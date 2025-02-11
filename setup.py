@@ -1,67 +1,67 @@
-import os, sys
-try:
-    from setuptools import setup
-    from setuptools.command.install import install as _install
-    from setuptools.command.sdist import sdist as _sdist
-except ImportError:
-    from distutils.core import setup
-    from distutils.command.install import install as _install
-    from distutils.command.sdist import sdist as _sdist
-
+import os
+import sys
+from setuptools import setup, find_packages
+from setuptools.command.install import install as _install
+from setuptools.command.sdist import sdist as _sdist
+from subprocess import CalledProcessError, run
 
 def _run_build_tables(dir):
-    from subprocess import call
-    call([sys.executable, '_build_tables.py'],
-         cwd=os.path.join(dir, 'ctoepl'))
-
+    """Runs the _build_tables.py script to generate lexing/parsing tables."""
+    try:
+        run([sys.executable, '_build_tables.py'], cwd=os.path.join(dir, 'ctoepl'), check=True)
+    except (FileNotFoundError, CalledProcessError) as e:
+        print(f"Error: Failed to build tables - {e}")
 
 class install(_install):
+    """Custom install command that builds lexing/parsing tables."""
     def run(self):
         _install.run(self)
-        self.execute(_run_build_tables, (self.install_lib,),
-                     msg="Build the lexing/parsing tables")
-
+        self.execute(_run_build_tables, (self.install_lib,), msg="Building lexing/parsing tables")
 
 class sdist(_sdist):
+    """Custom sdist command that builds tables before packaging."""
     def make_release_tree(self, basedir, files):
         _sdist.make_release_tree(self, basedir, files)
-        self.execute(_run_build_tables, (basedir,),
-                     msg="Build the lexing/parsing tables")
+        self.execute(_run_build_tables, (basedir,), msg="Building lexing/parsing tables")
 
+# Load README.md for PyPI-friendly long description
+with open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
-    # metadata
     name='c-to-epl',
+    version='1.2.1',
     description='C to ePL Converter in Python',
-    long_description="""
-        C to ePL Converter in Python
-    """,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     license='BSD',
-    version='1.2',
     author='Xeline Software Development Team',
     maintainer='Xeline Software Development Team',
-    author_email='junk@mailinator.com',
+    author_email='support@xel-software.com',  # Updated email
     url='https://github.com/xel-software/xel-c-to-epl-compiler',
-    download_url = 'https://github.com/xel-software/xel-c-to-epl-compiler/archive/1.2.tar.gz',
+    download_url='https://github.com/xel-software/xel-c-to-epl-compiler/archive/refs/tags/1.2.1.tar.gz',
     platforms='Cross Platform',
-    classifiers = [
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: BSD License',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
     ],
-    packages=['ctoepl', 'ctoepl.ply'],
+    packages=find_packages(),
     package_data={'ctoepl': ['*.cfg']},
-    entry_points={
-    'console_scripts': [
-        'c_to_epl=ctoepl:main',
+    install_requires=[
+        'ply>=3.11'  # Example dependency (add real ones)
     ],
-},
+    entry_points={
+        'console_scripts': [
+            'c_to_epl=ctoepl:main',
+        ],
+    },
     cmdclass={'install': install, 'sdist': sdist},
+    python_requires='>=3.6',
 )
